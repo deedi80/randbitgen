@@ -11,7 +11,7 @@ sound source of pseudo-random binary data** for testing, simulation, or
 data analysis tasks.
 
 ## WebAPP Preview
-[Visit Project Website](https://randbitgen.vercel.app)
+https://randbitgen.vercel.app
 
 ------------------------------------------------------------------------
 
