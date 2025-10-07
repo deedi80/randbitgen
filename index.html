@@ -3,20 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Bit Sequence Explorer</title>
+    <title>RandBit Explorer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Stone Neutrals -->
-    <!-- Application Structure Plan: The application is structured as a thematic, single-page dashboard to create an interactive narrative around the project. It starts with a high-level overview (Inform), moves to a hands-on interactive demo (Engage & Demonstrate), explains the underlying technology (Explain), and finally provides usage instructions (Instruct). This non-linear, task-oriented structure was chosen over a simple recreation of the README to allow users to directly experience the script's capabilities, making the information more memorable and understandable. The core user flow is designed to answer the questions: What is it?, How does it work?, and How can I use it? -->
-    <!-- Visualization & Content Choices: 
-        - Project Overview (README) -> Goal: Inform -> Presentation: Dynamic stat cards (HTML/CSS) -> Interaction: None -> Justification: Provides a quick, scannable summary of the project's key figures.
-        - Bit Generation (Core function) -> Goal: Demonstrate & Analyze -> Presentation: Interactive control panel with sliders/inputs, a text area for output, and a donut chart for analysis -> Interaction: User controls generation parameters (bit count, line length), clicks a button to trigger generation, and sees the output, counts, and a distribution chart update in real-time -> Justification: This is the centerpiece, turning a static concept into a live demonstration. The donut chart provides immediate visual feedback on the randomness of the output. -> Library/Method: Vanilla JS for logic, Chart.js (Canvas) for visualization.
-        - Mersenne Twister Algorithm (README) -> Goal: Explain -> Presentation: A simplified flowchart using styled HTML divs and CSS borders to represent process flow -> Interaction: Hover effects could be added for more detail, but the primary goal is a clear, static visual -> Justification: Offers a more digestible explanation of a complex topic than text alone, while adhering to the NO SVG/Mermaid constraint. -> Library/Method: HTML/Tailwind.
-        - Usage Instructions (README) -> Goal: Instruct -> Presentation: Cleanly styled code blocks with copy-to-clipboard functionality -> Interaction: A "Copy" button for each command -> Justification: Improves user experience by making the setup commands easy to use. -> Library/Method: Vanilla JS. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -70,6 +62,10 @@
             font-weight: 600;
             color: #0d9488; /* teal-600 */
         }
+        .read-more {
+            color: #0d9488; /* teal-600 */
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -113,7 +109,7 @@
                     <div class="grid grid-cols-1 lg:grid-cols-5 gap-8">
 
                         <!-- Controls -->
-                        <div class="lg:col-span-2 space-y-6 bg-stone-50 p-6 rounded-lg border border-stone-200 self-start">
+                        <div class="lg:col-span-2 space-y-4 bg-stone-50 p-6 rounded-lg border border-stone-200 self-start">
                             <h3 class="text-xl font-semibold text-stone-700 border-b pb-3">Controls</h3>
                             <div>
                                 <label for="bitCount" class="block text-sm slider-label mb-2">Total Bits: <span id="bitCountValue" class="slider-value">10000</span></label>
@@ -123,8 +119,11 @@
                                 <label for="bitsPerLine" class="block text-sm slider-label mb-2">Bits Per Line: <span id="bitsPerLineValue" class="slider-value">100</span></label>
                                 <input type="range" id="bitsPerLine" min="10" max="200" step="10" value="100" class="w-full h-2 bg-stone-200 rounded-lg appearance-none cursor-pointer">
                             </div>
-                            <button id="generateBtn" class="w-full bg-teal-600 text-white font-semibold py-3 px-6 rounded-lg btn shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500">
+                            <button id="generateBtn" class="w-full bg-teal-600 text-white font-semibold py-3 px-6 rounded-lg btn shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 mt-4">
                                 Generate Sequence
+                            </button>
+                            <button id="downloadBtn" class="w-full bg-stone-500 text-white font-semibold py-3 px-6 rounded-lg btn shadow-sm hover:bg-stone-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stone-400" disabled>
+                                Download Sequence (rand_bits.txt)
                             </button>
                         </div>
 
@@ -173,7 +172,7 @@
                         <div class="flex-1 bg-stone-50 p-6 rounded-lg border border-stone-200 max-w-sm">
                              <div class="text-3xl mb-3">⚙️</div>
                             <h3 class="text-xl font-semibold text-stone-800">2. Algorithm</h3>
-                            <p class="text-stone-600 mt-2">The script uses the **Mersenne Twister** algorithm, a popular and robust PRNG, to perform complex mathematical operations on the number.</p>
+                            <p class="text-stone-600 mt-2">The script uses the <strong> Mersenne Twister algorithm</strong>, a popular and robust PRNG, to perform complex mathematical operations on the number. <a href="https://www.sciencedirect.com/topics/computer-science/mersenne-twister" class="read-more" target="_blank"> Read More</a></p>
                         </div>
                         <div class="text-4xl text-stone-300 font-light hidden md:block">→</div>
                         <div class="text-4xl text-stone-300 font-light md:hidden">↓</div>
@@ -202,8 +201,8 @@
                         <div>
                             <p class="font-medium text-stone-700 mb-2">2. Navigate into the directory and run the script:</p>
                             <div class="code-block">
-                                <pre><code>cd random-bit-generator
-python generate_bits.py</code></pre>
+                                <pre><code>cd randbitgen
+python randbitgen.py</code></pre>
                                 <button class="copy-btn" onclick="copyCode(this)">Copy</button>
                             </div>
                         </div>
@@ -224,6 +223,7 @@ python generate_bits.py</code></pre>
             const bitCountValue = document.getElementById('bitCountValue');
             const bitsPerLineValue = document.getElementById('bitsPerLineValue');
             const generateBtn = document.getElementById('generateBtn');
+            const downloadBtn = document.getElementById('downloadBtn');
             const outputArea = document.getElementById('outputArea');
             const zerosCountEl = document.getElementById('zerosCount');
             const onesCountEl = document.getElementById('onesCount');
@@ -239,6 +239,7 @@ python generate_bits.py</code></pre>
 
             generateBtn.addEventListener('click', () => {
                 generateBtn.disabled = true;
+                downloadBtn.disabled = true;
                 generateBtn.textContent = 'Generating...';
                 
                 setTimeout(() => {
@@ -254,6 +255,7 @@ python generate_bits.py</code></pre>
                     analyzeSequence(sequence);
                     
                     generateBtn.disabled = false;
+                    downloadBtn.disabled = false;
                     generateBtn.textContent = 'Generate Sequence';
                 }, 50);
             });
@@ -261,10 +263,40 @@ python generate_bits.py</code></pre>
             function displayOutput(sequence, lineLength) {
                 let formattedOutput = '';
                 for (let i = 0; i < sequence.length; i += lineLength) {
-                    formattedOutput += sequence.substring(i, i + lineLength) + '\n';
+                    // Only add newline if we are not at the very end and there's content left
+                    formattedOutput += sequence.substring(i, i + lineLength);
+                    if (i + lineLength < sequence.length) {
+                         formattedOutput += '\n';
+                    }
                 }
                 outputArea.value = formattedOutput.trim();
             }
+            
+            function downloadSequence() {
+                const text = outputArea.value;
+                if (!text) return;
+
+                // 1. Create a Blob (Binary Large Object) from the text data
+                const blob = new Blob([text], { type: 'text/plain' });
+                
+                // 2. Create a temporary anchor element
+                const a = document.createElement('a');
+                a.style.display = 'none';
+
+                // 3. Set the download URL and filename
+                a.href = window.URL.createObjectURL(blob);
+                a.download = 'rand_bits.txt';
+
+                // 4. Simulate the click
+                document.body.appendChild(a);
+                a.click();
+
+                // 5. Clean up the temporary elements
+                window.URL.revokeObjectURL(a.href);
+                document.body.removeChild(a);
+            }
+
+            downloadBtn.addEventListener('click', downloadSequence);
 
             function analyzeSequence(sequence) {
                 let zeros = 0;
@@ -317,7 +349,7 @@ python generate_bits.py</code></pre>
                                         }
                                         if (context.parsed !== null) {
                                             const total = context.chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-                                            const percentage = total > 0 ? ((context.parsed / total) * 100).toFixed(1) : 0;
+                                            const percentage = total > 0 ? ((context.raw / total) * 100).toFixed(1) : 0;
                                             label += `${context.raw.toLocaleString()} (${percentage}%)`;
                                         }
                                         return label;
@@ -344,15 +376,21 @@ python generate_bits.py</code></pre>
         function copyCode(button) {
             const pre = button.previousElementSibling;
             const code = pre.textContent;
-            navigator.clipboard.writeText(code).then(() => {
-                button.textContent = 'Copied!';
-                setTimeout(() => {
-                    button.textContent = 'Copy';
-                }, 2000);
-            }).catch(err => {
-                console.error('Failed to copy text: ', err);
-            });
+            
+            
+            const tempInput = document.createElement('textarea');
+            tempInput.value = code;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+
+            button.textContent = 'Copied!';
+            setTimeout(() => {
+                button.textContent = 'Copy';
+            }, 2000);
         }
+
     </script>
 </body>
 </html>
